@@ -1,0 +1,29 @@
+Requirements
+===========================================
+	python2.7
+	beautifulsoup4 
+		To install beautifulsoup4 refer to  https://pypi.python.org/pypi/beautifulsoup4 or 
+		if you have pip installed then use 'pip install beautifulsoup4'
+		
+		
+How to run the script
+===========================================
+ Print help
+	python2.7 collect_tweets.py -h
+	
+	Usage: collect_tweets.py [options] 
+
+	Options:
+	  -h, --help            show this help message and exit
+	  -i INPUT_FILE, --input=INPUT_FILE
+	                        specify input filename
+	  -o OUTPUT_FILE, --output=OUTPUT_FILE
+	                        specify output filename
+ Run script	
+	python2.7 collect_tweets.py -i <tsv input filename> -o <output filename>
+	
+	This will read user id and tweet id from input file and create a output file with tweet id, user id and tweet.However, if the tweet does not exist, then it will print "Not Found"
+	
+	
+	
+	
