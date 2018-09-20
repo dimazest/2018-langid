@@ -46,7 +46,6 @@ order by tweet_id % 197, tweet_id % 9973, created_at
 
 \copy (select * from _twitter_clients_tweets) to 'twitter_clients_tweets.csv' with csv header
 
-
 drop table if exists _not_twitter_clients_tweets;
 select tweet_id, clean_text
 into _not_twitter_clients_tweets
@@ -56,3 +55,17 @@ order by tweet_id % 197, tweet_id % 9973, created_at
 ;
 
 \copy (select * from _not_twitter_clients_tweets) to 'not_twitter_clients_tweets.csv' with csv header
+
+drop table if exists _not_twitter_clients_not_insta_not_fq_tweets;
+select tweet_id, clean_text
+into _not_twitter_clients_not_insta_not_fq_tweets
+from _multi_character_set_tweets
+where
+not is_retweet
+and source_pretty not like 'Twitter %'
+and source_pretty <> 'Instagram'
+and source_pretty <> 'Foursquare'
+order by tweet_id % 197, tweet_id % 9973, created_at
+;
+
+\copy (select * from _not_twitter_clients_not_insta_not_fq_tweets) to 'not_twitter_clients_not_insta_not_fq_tweets.csv' with csv header
