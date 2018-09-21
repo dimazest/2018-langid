@@ -3,7 +3,6 @@
 \set ru_special абвгдеёжзийклмнопрстуфхцчшщъыьэюя
 
 drop table if exists _multi_character_set_tweets;
-
 with tweet_letters as (
     select
     *,
@@ -69,3 +68,19 @@ order by tweet_id % 197, tweet_id % 9973, created_at
 ;
 
 \copy (select * from _not_twitter_clients_not_insta_not_fq_tweets) to 'not_twitter_clients_not_insta_not_fq_tweets.csv' with csv header
+
+
+drop table if exists _april25_tweets;
+select
+tweet_id,
+features#>>'{languages,0}' lang,
+regexp_replace(text, E'[\\n\\r]+', ' ', 'g') clean_text
+into _april25_tweets
+from tweet
+where
+features#>>'{filter,is_retweet}' <> 'true'
+and created_at between '2018-04-25' and '2018-04-26'
+order by created_at
+;
+
+\copy (select * from _april25_tweets) to 'april25_tweets.csv' with csv header
